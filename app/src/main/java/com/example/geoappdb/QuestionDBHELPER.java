@@ -15,19 +15,30 @@ public class QuestionDBHELPER extends SQLiteOpenHelper {
     public final static String CAPITAL = "capital";
     public final static String POPULATION = "popultation";
     public final static String CURRENCY = "currency";
-    public final static String[] columns = {_ID,COUNTRY,CAPITAL,POPULATION,CURRENCY};
+    public final static String[] columns = {_ID, COUNTRY, CAPITAL, POPULATION, CURRENCY};
 
-    public QuestionDBHELPER(Context context){
+    protected Context context;
+
+    protected QuestionDBHELPER(Context context){
         super(context,DB_NAME,null,DB_VERSION);
-    }
+        this.context=context;
+}
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+    db.execSQL("CREATE TABLE "+TABLE_NAME+"("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COUNTRY + " TEXT NOT NULL, "
+            + CAPITAL + " TEXT NOT NULL, "
+            + POPULATION + " INTEGER, "
+            + CURRENCY + " TEXT NOT NULL); ");
+        System.out.println("creation of the DB table named: "+TABLE_NAME);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    }
+    public void deleteDB(){
+    context.deleteDatabase(DB_NAME);
     }
 }

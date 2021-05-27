@@ -8,6 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SQLite Manage"/>
+    <TextView
+        android:id="@+id/tvdbinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SQLite Manage"
+        android:textSize="50dp"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete"
-        android:onClick="deleteDatabase"/>
+        android:onClick="deleteDB"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
