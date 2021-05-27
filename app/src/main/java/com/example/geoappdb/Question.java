@@ -3,11 +3,11 @@ package com.example.geoappdb;
 public class Question {
     private String country,capital,currency;
     private Integer population;
-    public Question(String cou,String cap,Integer pop,String currency){
+    public Question(String cou,String cap,Integer pop,String cur){
         country=cou;
         capital=cap;
         population=pop;
-        currency=currency;
+        currency=cur;
     }
     //GETTERS/////
     public String getCountry(){return country;};
