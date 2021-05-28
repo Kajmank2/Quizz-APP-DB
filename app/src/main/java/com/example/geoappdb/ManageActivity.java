@@ -1,23 +1,40 @@
 package com.example.geoappdb;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+<<<<<<< HEAD
+=======
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+>>>>>>> Something-was-wrong
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManageActivity extends AppCompatActivity {
     QuestionDBHELPER questionDBHELPER;
     SQLiteDatabase sqldb=null;
     TextView tvdbinfo;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
     Button querybtn,entrybtn,coutnbtn,initbtn;
     EditText etcountry,etcapital,etpopulation,etcurrency;
     ListView lvforquestion;
 >>>>>>> Stashed changes
+=======
+    Button querybtn,entrybtn,coutnbtn,initbtn;
+    EditText etcountry,etcapital,etpopulation,etcurrency;
+    ListView lvforquestion;
+>>>>>>> Something-was-wrong
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +42,15 @@ public class ManageActivity extends AppCompatActivity {
         tvdbinfo=findViewById(R.id.tvdbinfo);
     }
     public void creation(View v){
-    questionDBHELPER = new QuestionDBHELPER(this);
-    sqldb=questionDBHELPER.getWritableDatabase();
+        questionDBHELPER = new QuestionDBHELPER(this);
+        sqldb=questionDBHELPER.getWritableDatabase();
         Toast.makeText(this,"DB name:" + questionDBHELPER.getDatabaseName(),
                 Toast.LENGTH_LONG).show();
         System.out.println("=========== \n"+questionDBHELPER.getDatabaseName());
         tvdbinfo.setText("EXTRA EXTRA DATABASE WORK");
     }
     public void insertEntry(View view) {
+<<<<<<< HEAD
         ContentValues cv = new ContentValues();
         cv.put(QuestionDBHELPER.COUNTRY,"Italy");
         cv.put(QuestionDBHELPER.CAPITAL,"Rome");
@@ -40,9 +58,117 @@ public class ManageActivity extends AppCompatActivity {
         cv.put(QuestionDBHELPER.CURRENCY,"Euro");
         sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
         //Italy:Rome:62:Euro
+=======
+        String country = etcountry.getText().toString();
+        String capital = etcapital.getText().toString();
+        int population;
+        try {
+            population = Integer.parseInt(etpopulation.getText().toString());
+        } catch(NumberFormatException nfe) { population = 0; }
+        String currency = etcurrency.getText().toString();
+        if(!country.equals("")&&!capital.equals("")){
+            ContentValues newRecord=new ContentValues();
+            newRecord.put(QuestionDBHELPER.COUNTRY,country);
+            newRecord.put(QuestionDBHELPER.CAPITAL,capital);
+            newRecord.put(QuestionDBHELPER.POPULATION,population);
+            newRecord.put(QuestionDBHELPER.CURRENCY,currency);
+            sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,newRecord);
+        }
+>>>>>>> Something-was-wrong
+    }
+    //QUERY OF ALL VALUE
+    public void queryDatabase(View view) {
+        Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
+                QuestionDBHELPER.columns,
+                null,
+                null,
+                null,
+                null,null
+        );
+        processCursor(entries);
+    }
+    public void queryDatabaseAdapter(View view) {
+        Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
+                QuestionDBHELPER.columns,
+                null,
+                null,
+                null,
+                null,null
+        );
+        createQuestionFromCursor(entries);
+    }
+    public void querySpecial(View v) {
+        // all National
+        String selection = QuestionDBHELPER.COUNTRY+"=?";
+        String[] selectionArguments = {"asd"};
+        Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
+                QuestionDBHELPER.columns,
+                selection,
+                selectionArguments,
+                null,
+                null,null);
+        processCursor(entries);
     }
 
-    public void queryDatabase(View view) {
+    private void  createQuestionFromCursor(Cursor c){
+        ArrayList<Question> questionsFromQuery= new ArrayList<>();
+        c.moveToFirst();
+        String cols[] = c.getColumnNames();
+        while (!c.isAfterLast()){
+            String capital=null,country=null,currency=null;
+            Integer population=0;
+            for(int colnb=0;colnb<c.getColumnCount();colnb++){
+                switch (c.getType(colnb)){
+                    case Cursor.FIELD_TYPE_STRING:
+                        String value = c.getString(colnb);
+                        if(cols[colnb].equals(QuestionDBHELPER.COUNTRY)) country = value;
+                        else if(cols[colnb].equals(QuestionDBHELPER.CAPITAL)) capital = value;
+                        else if(cols[colnb].equals(QuestionDBHELPER.CURRENCY)) currency = value;
+                        break;
+                    case Cursor.FIELD_TYPE_INTEGER:
+                        population = c.getInt(colnb);
+                        break;
+                }
+            }
+            Question theNewQuestion = new Question(country,capital,population,currency);
+            questionsFromQuery.add(theNewQuestion);
+            c.moveToNext();
+        }
+        c.close();
+        QuestionAdapter ca = new QuestionAdapter(this,questionsFromQuery);
+        lvforquestion.setAdapter(ca);
+        //display layout
+        //NEW ACTIVITY
+    }
+
+
+
+
+
+    private void processCursor(Cursor c) {
+        ArrayList<String> allRecords = new ArrayList<>();
+        String entry = new String();    //for displaing content intoTV
+        c.moveToFirst();
+        String cols[] = c.getColumnNames();
+        while (!c.isAfterLast()){
+            entry="";
+            for(int colnb=0;colnb<c.getColumnCount();colnb++){
+                switch (c.getType(colnb)){
+                    case Cursor.FIELD_TYPE_STRING:
+                        entry+=cols[colnb]+": "+c.getString(colnb)+ " ";
+                        break;
+                    case Cursor.FIELD_TYPE_INTEGER:
+                        entry+="\n"+cols[colnb]+": "+c.getInt(colnb);
+                        break;
+                }
+            }
+            allRecords.add(entry);
+            c.moveToNext();
+        }
+        String allEntries = new String();
+        for (String line: allRecords)
+            allEntries+=line+"\n";
+        tvdbinfo.setText(allEntries);
     }
 
     public void countRecords(View view) {
@@ -77,7 +203,11 @@ public class ManageActivity extends AppCompatActivity {
         coutnbtn=findViewById(R.id.countbtn);
         querybtn=findViewById(R.id.querybtn);
         initbtn=findViewById(R.id.initbtn);
+<<<<<<< HEAD
        // displaybtn.findViewById(R.id.displaybtn);
+=======
+        // displaybtn.findViewById(R.id.displaybtn);
+>>>>>>> Something-was-wrong
         etcurrency = findViewById(R.id.etcurrency);
         etcapital= findViewById(R.id.etcapital);
         etpopulation = findViewById(R.id.etpopulation);
@@ -106,7 +236,11 @@ public class ManageActivity extends AppCompatActivity {
         sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
         //Italy:Rome:62:Euro
     }
+<<<<<<< HEAD
 //==============INIT=======================//
+=======
+    //==============INIT=======================//
+>>>>>>> Something-was-wrong
     public void Initialize(View view) {
         ContentValues cv = new ContentValues();
 
@@ -158,6 +292,7 @@ public class ManageActivity extends AppCompatActivity {
         cv.put(QuestionDBHELPER.POPULATION,127);
         cv.put(QuestionDBHELPER.CURRENCY,"Yen");
 
+<<<<<<< HEAD
         sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
 
         cv.put(QuestionDBHELPER.COUNTRY,"Belgium");
@@ -291,6 +426,141 @@ public class ManageActivity extends AppCompatActivity {
 
         sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
 
+=======
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Belgium");
+        cv.put(QuestionDBHELPER.CAPITAL,"Brussels");
+        cv.put(QuestionDBHELPER.POPULATION,10);
+        cv.put(QuestionDBHELPER.CURRENCY,"Euro");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Brasil");
+        cv.put(QuestionDBHELPER.CAPITAL,"Brasilia");
+        cv.put(QuestionDBHELPER.POPULATION,200);
+        cv.put(QuestionDBHELPER.CURRENCY,"Real");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Indonesia");
+        cv.put(QuestionDBHELPER.CAPITAL,"Jakarta");
+        cv.put(QuestionDBHELPER.POPULATION,250);
+        cv.put(QuestionDBHELPER.CURRENCY,"Rupiah");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Argentina");
+        cv.put(QuestionDBHELPER.CAPITAL,"Buenos Aires");
+        cv.put(QuestionDBHELPER.POPULATION,40);
+        cv.put(QuestionDBHELPER.CURRENCY,"Peso");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Poland");
+        cv.put(QuestionDBHELPER.CAPITAL,"Warsaw");
+        cv.put(QuestionDBHELPER.POPULATION,38);
+        cv.put(QuestionDBHELPER.CURRENCY,"Zloty");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+        cv.put(QuestionDBHELPER.COUNTRY,"Australia");
+        cv.put(QuestionDBHELPER.CAPITAL,"Canberra");
+        cv.put(QuestionDBHELPER.POPULATION,24);
+        cv.put(QuestionDBHELPER.CURRENCY,"Dollar");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Chile");
+        cv.put(QuestionDBHELPER.CAPITAL,"Santiago");
+        cv.put(QuestionDBHELPER.POPULATION,17);
+        cv.put(QuestionDBHELPER.CURRENCY,"Peso");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"South Korea");
+        cv.put(QuestionDBHELPER.CAPITAL,"Seoul");
+        cv.put(QuestionDBHELPER.POPULATION,48);
+        cv.put(QuestionDBHELPER.CURRENCY,"Won");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Canada");
+        cv.put(QuestionDBHELPER.CAPITAL,"Ottawa");
+        cv.put(QuestionDBHELPER.POPULATION,36);
+        cv.put(QuestionDBHELPER.CURRENCY,"Dollar");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Turkey");
+        cv.put(QuestionDBHELPER.CAPITAL,"Ankara");
+        cv.put(QuestionDBHELPER.POPULATION,77);
+        cv.put(QuestionDBHELPER.CURRENCY,"Lira");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Greece");
+        cv.put(QuestionDBHELPER.CAPITAL,"Athens");
+        cv.put(QuestionDBHELPER.POPULATION,10);
+        cv.put(QuestionDBHELPER.CURRENCY,"Euro");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Netherland");
+        cv.put(QuestionDBHELPER.CAPITAL,"Amsterdam");
+        cv.put(QuestionDBHELPER.POPULATION,17);
+        cv.put(QuestionDBHELPER.CURRENCY,"Euro");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Egypt");
+        cv.put(QuestionDBHELPER.CAPITAL,"Cairo");
+        cv.put(QuestionDBHELPER.POPULATION,89);
+        cv.put(QuestionDBHELPER.CURRENCY,"Pound");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Ireland");
+        cv.put(QuestionDBHELPER.CAPITAL,"Dublin");
+        cv.put(QuestionDBHELPER.POPULATION,4);
+        cv.put(QuestionDBHELPER.CURRENCY,"Euro");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Ukraine");
+        cv.put(QuestionDBHELPER.CAPITAL,"Kiev");
+        cv.put(QuestionDBHELPER.POPULATION,45);
+        cv.put(QuestionDBHELPER.CURRENCY,"Hryvnia");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Malaysia");
+        cv.put(QuestionDBHELPER.CAPITAL,"Kuala Lumpur");
+        cv.put(QuestionDBHELPER.POPULATION,28);
+        cv.put(QuestionDBHELPER.CURRENCY,"Ringgit");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"United Kingdom");
+        cv.put(QuestionDBHELPER.CAPITAL,"London");
+        cv.put(QuestionDBHELPER.POPULATION,65);
+        cv.put(QuestionDBHELPER.CURRENCY,"Pound");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+        cv.put(QuestionDBHELPER.COUNTRY,"India");
+        cv.put(QuestionDBHELPER.CAPITAL,"New Delhi");
+        cv.put(QuestionDBHELPER.POPULATION,1210);
+        cv.put(QuestionDBHELPER.CURRENCY,"Rupee");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+        cv.put(QuestionDBHELPER.COUNTRY,"Spain");
+        cv.put(QuestionDBHELPER.CAPITAL,"Madrid");
+        cv.put(QuestionDBHELPER.POPULATION,46);
+        cv.put(QuestionDBHELPER.CURRENCY,"Euro");
+
+        sqldb.insert(QuestionDBHELPER.TABLE_NAME,null,cv);
+
+>>>>>>> Something-was-wrong
         //Italy:Rome:62:Euro
     }
 
@@ -322,6 +592,11 @@ public class ManageActivity extends AppCompatActivity {
     United Kingdom:London:65:Pound
         India:New Delhi:1210:Rupee
         Spain:Madrid:46:Euro
+<<<<<<< HEAD
         
  */
 >>>>>>> Stashed changes
+=======
+
+ */
+>>>>>>> Something-was-wrong

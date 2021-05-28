@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SQLite Manage"
+<<<<<<< HEAD
         android:textSize="50dp"/>
     <Button
         android:layout_width="match_parent"
@@ -59,6 +60,48 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:onClick="deleteDB"/>
+=======
+        android:textSize="25dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <EditText android:id="@+id/etcountry" android:layout_height="wrap_content" android:layout_width="wrap_content" android:hint="Country"/>
+        <EditText android:id="@+id/etcapital" android:layout_height="wrap_content" android:layout_width="wrap_content"  android:hint="Capital."/>
+        <EditText android:id="@+id/etpopulation" android:layout_height="wrap_content" android:layout_width="wrap_content" android:inputType="number" android:hint="Population"/>
+        <EditText android:id="@+id/etcurrency" android:layout_height="wrap_content" android:layout_width="wrap_content"  android:hint="Currency"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/entrybtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insert Entry"
+            android:onClick="insertEntry"/>
+        <Button
+            android:id="@+id/countbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Count"
+            android:onClick="countRecords"/>
+        <Button
+            android:id="@+id/querybtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Query"
+            android:onClick="queryDatabase"/>
+        <Button
+            android:id="@+id/initbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INIT"
+            android:onClick="queryDatabase"/>
+
+    </LinearLayout>
+>>>>>>> Something-was-wrong
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,6 +109,5 @@
         android:text="BACK TO MENU"
         android:onClick="back"
         />
-
-
+    <ListView android:id="@+id/lvforquestion" android:layout_width="match_parent" android:layout_height="wrap_content"/>
 </LinearLayout>
