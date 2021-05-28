@@ -35,7 +35,27 @@
         android:text="Query"
         android:onClick="queryDatabase"/>
     <Button
+
         android:layout_width="match_parent"
+=======
+        android:id="@+id/initbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Initialize"
+        android:text="INIT"/>
+
+  <!--  <Button
+        android:id="@+id/displaybtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISPLAY"
+        android:onClick="queryDatabase"/>
+-->
+</LinearLayout>
+    <TextView
+        android:id="@+id/tvdbinfo"
+        android:layout_width="wrap_content"
+>>>>>>> Stashed changes
         android:layout_height="wrap_content"
         android:text="Delete"
         android:onClick="deleteDB"/>
