@@ -5,63 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SQLite Manage"/>
-    <TextView
-        android:id="@+id/tvdbinfo"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SQLite Manage"
-<<<<<<< HEAD
-        android:textSize="50dp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create"
-        android:onClick="creation"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Insert Entry"
-        android:onClick="insertEntry"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Count"
-        android:onClick="countRecords"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Query"
-        android:onClick="queryDatabase"/>
-    <Button
+        android:orientation="horizontal">
 
-        android:layout_width="match_parent"
-=======
-        android:id="@+id/initbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="Initialize"
-        android:text="INIT"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:onClick="creation"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:onClick="deleteDB"/>
+    </LinearLayout>
 
-  <!--  <Button
-        android:id="@+id/displaybtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DISPLAY"
-        android:onClick="queryDatabase"/>
--->
-</LinearLayout>
-    <TextView
-        android:id="@+id/tvdbinfo"
-        android:layout_width="wrap_content"
->>>>>>> Stashed changes
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:onClick="deleteDB"/>
-=======
-        android:textSize="25dp"/>
+
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
         <EditText android:id="@+id/etcountry" android:layout_height="wrap_content" android:layout_width="wrap_content" android:hint="Country"/>
@@ -97,11 +61,10 @@
             android:id="@+id/initbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="INIT"
-            android:onClick="queryDatabase"/>
+            android:text="Init"
+            android:onClick="Initialize"/>
 
     </LinearLayout>
->>>>>>> Something-was-wrong
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -109,5 +72,11 @@
         android:text="BACK TO MENU"
         android:onClick="back"
         />
+    <TextView
+        android:id="@+id/tvdbinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SQLite Manage"
+        android:textSize="10dp"/>
     <ListView android:id="@+id/lvforquestion" android:layout_width="match_parent" android:layout_height="wrap_content"/>
 </LinearLayout>
