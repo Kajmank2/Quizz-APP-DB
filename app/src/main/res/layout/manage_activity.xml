@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SQLite Manage"
-        android:textSize="50dp"/>
+        android:textSize="25dp"/>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
         <EditText android:id="@+id/etcountry" android:layout_height="wrap_content" android:layout_width="wrap_content" android:hint="Country"/>
@@ -61,10 +61,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Query"
-        android:onClick="queryDatabase"/>
+        android:onClick="querySpecial"/>
+    <Button
+        android:id="@+id/displaybtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISPLAY"
+        android:onClick="querySpecial"/>
 
 </LinearLayout>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,6 +77,5 @@
         android:text="BACK TO MENU"
         android:onClick="back"
         />
-
-
+    <ListView android:id="@+id/lvforquestion" android:layout_width="match_parent" android:layout_height="wrap_content"/>
 </LinearLayout>
