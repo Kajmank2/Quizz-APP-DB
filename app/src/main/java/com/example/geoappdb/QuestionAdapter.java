@@ -1,3 +1,4 @@
+
 package com.example.geoappdb;
 
 import android.content.Context;
@@ -35,3 +36,5 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         return theView;
     }
 }
+
+

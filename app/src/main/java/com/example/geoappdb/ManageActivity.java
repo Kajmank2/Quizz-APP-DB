@@ -65,7 +65,16 @@ public class ManageActivity extends AppCompatActivity {
                 null,
                 null,null
                 );
-       // processCursor(entries);
+        processCursor(entries);
+    }
+    public void queryDatabaseAdapter(View view) {
+        Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
+                QuestionDBHELPER.columns,
+                null,
+                null,
+                null,
+                null,null
+        );
         createQuestionFromCursor(entries);
     }
     public void querySpecial(View v) {
@@ -80,6 +89,7 @@ public class ManageActivity extends AppCompatActivity {
                 null,null);
         processCursor(entries);
     }
+
     private void  createQuestionFromCursor(Cursor c){
         ArrayList<Question> questionsFromQuery= new ArrayList<>();
         c.moveToFirst();
@@ -112,6 +122,9 @@ public class ManageActivity extends AppCompatActivity {
     }
 
 
+
+
+
     private void processCursor(Cursor c) {
         ArrayList<String> allRecords = new ArrayList<>();
         String entry = new String();    //for displaing content intoTV
@@ -126,6 +139,7 @@ public class ManageActivity extends AppCompatActivity {
                         break;
                     case Cursor.FIELD_TYPE_INTEGER:
                         entry+="\n"+cols[colnb]+": "+c.getInt(colnb);
+                        break;
                 }
             }
          allRecords.add(entry);
@@ -158,14 +172,14 @@ public class ManageActivity extends AppCompatActivity {
         entrybtn.setEnabled(enable);
         querybtn.setEnabled(enable);
         coutnbtn.setEnabled(enable);
-        displaybtn.setEnabled(enable);
+        //displaybtn.setEnabled(enable);
     }
     private void getViewsReferences() {
         tvdbinfo = findViewById(R.id.tvdbinfo);
         entrybtn=findViewById(R.id.entrybtn);
         coutnbtn=findViewById(R.id.countbtn);
         querybtn=findViewById(R.id.querybtn);
-        displaybtn.findViewById(R.id.displaybtn);
+       // displaybtn.findViewById(R.id.displaybtn);
         etcurrency = findViewById(R.id.etcurrency);
         etcapital= findViewById(R.id.etcapital);
         etpopulation = findViewById(R.id.etpopulation);
@@ -186,6 +200,7 @@ public class ManageActivity extends AppCompatActivity {
     // ====================EXAMPLE FROM LESSON=============//
     public void example(View view) {
         ContentValues cv = new ContentValues();
+        
         cv.put(QuestionDBHELPER.COUNTRY,"Italy");
         cv.put(QuestionDBHELPER.CAPITAL,"Rome");
         cv.put(QuestionDBHELPER.POPULATION,62);
@@ -195,3 +210,32 @@ public class ManageActivity extends AppCompatActivity {
     }
 
 }
+/*
+Italy:Rome:62:Euro
+        Germany:Berlin:82:Euro
+        Poland:Warsaw:38:Zloty
+        France:Paris:66:Euro
+        China:Beijing:1382:Yuan
+        USA:Washington:325:Dollar
+        Russia:Moscow:147:Ruble
+        Japan:Tokyo:127:Yen
+        Belgium:Brussels:10:Euro
+        Brasil:Brasilia:200:Real
+        Indonesia:Jakarta:250:Rupiah
+        Argentina:Buenos Aires:40:Peso
+        Australia:Canberra:24:Dollar
+        Canada:Ottawa:36:Dollar
+        Chile:Santiago:17:Peso
+        South Korea:Seoul:48:Won
+        Turkey:Ankara:77:Lira
+        Greece:Athens:10:Euro
+        Netherland:Amsterdam:17:Euro
+        Egypt:Cairo:89:Pound
+        Ireland:Dublin:4:Euro
+        Ukraine:Kiev:45:Hryvnia
+        Malaysia:Kuala Lumpur:28:Ringgit
+        United Kingdom:London:65:Pound
+        India:New Delhi:1210:Rupee
+        Spain:Madrid:46:Euro
+
+ */
