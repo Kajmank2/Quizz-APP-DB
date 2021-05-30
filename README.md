@@ -7,7 +7,6 @@ How to start:
 3. Click (Init),
 4. Comeback, and play my Geo Quizz.
 ```
-#How to start
 
 
 #Good Luck !
