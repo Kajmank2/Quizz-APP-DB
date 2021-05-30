@@ -20,10 +20,11 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity{
     QuestionDBHELPER questionDBHELPER;
     SQLiteDatabase sqldb=null;
-  public   String CurrQuestion,FalseQuestion1,FalseQuestion2,d;
+    String CurrQuestion,CurrCuntry,FalseQuestion1,FalseQuestion2,FalseQuestion3;
     Random alea;
     Button startbtn,randquestionbtn,button1,button2,button3,querybttn;
     TextView ansText,programinfotv,question;
+    ArrayList<String> questionList = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,20 +65,20 @@ public class GameActivity extends AppCompatActivity{
         );
         processCursorCountry(entries);
         // COuntry with false
-        /*
         Cursor entriesFalse = sqldb.query(QuestionDBHELPER.TABLE_NAME,
                 QuestionDBHELPER.columns,
                 null,
                 null,
                 null,
-                null, "RANDOM()","2"
+                null, "RANDOM()","3"
         );
         processCursorCountryFalse(entriesFalse);
-        
-         */
+
+
+
         String selection = QuestionDBHELPER.COUNTRY+"=?";
-        // Add Arguments to array
-        String[] selectionArguments = {CurrQuestion};
+        // Add Arguments to Button  CAPITAL
+        String[] selectionArguments = {CurrCuntry};
         Cursor entrCapital = sqldb.query(QuestionDBHELPER.TABLE_NAME,
                 QuestionDBHELPER.columns,
                 selection,
@@ -88,21 +89,18 @@ public class GameActivity extends AppCompatActivity{
 
     }
     public void querySpecial(View view) {
-        // all National
-        String selection = QuestionDBHELPER.COUNTRY+"=?";
-        // Add Arguments to array
-        String[] selectionArguments = {CurrQuestion};
-        Cursor entrCapital = sqldb.query(QuestionDBHELPER.TABLE_NAME,
+        Cursor entriesFalse = sqldb.query(QuestionDBHELPER.TABLE_NAME,
                 QuestionDBHELPER.columns,
-                selection,
-                selectionArguments,
                 null,
-                null,null,null);
-        processCursorCapital(entrCapital);
+                null,
+                null,
+                null, "RANDOM()","3"
+        );
+        processCursorCountryFalse(entriesFalse);
     }
 
     private void processCursorCapital(Cursor c) {
-
+/*
         ArrayList<String> allRecords = new ArrayList<>();
         String entry = new String();
         c.moveToFirst();
@@ -125,7 +123,6 @@ public class GameActivity extends AppCompatActivity{
         String allEntries = new String();
         for (String line: allRecords)
             allEntries+=line;
-        programinfotv.setText(allEntries);
 
         // TRUE FOR BUTTON
         int val = 1+alea.nextInt(4);
@@ -136,8 +133,101 @@ public class GameActivity extends AppCompatActivity{
         }else
             button3.setText(allEntries);
 
-    }
+ */
 
+        //==========================================
+        if(CurrQuestion==questionList.get(0)){
+             ArrayList<String> allRecords = new ArrayList<>();
+            String entry = new String();
+            c.moveToFirst();
+            String cols[] = c.getColumnNames();
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=2;colnb<3;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_STRING:
+                            entry+=c.getString(colnb);
+                            break;
+                        case Cursor.FIELD_TYPE_INTEGER:
+                            entry+=c.getInt(colnb);
+                            break;
+                    }
+                }
+                allRecords.add(entry);
+                c.moveToNext();
+            }
+            String allEntries = new String();
+            for (String line: allRecords)
+                allEntries+=line;
+
+            // TRUE FOR BUTTON
+            int val = 1+alea.nextInt(4);
+            if (val==1){
+                button1.setText(allEntries);
+            }else if(val==2){
+                button2.setText(allEntries);
+            }else
+                button3.setText(allEntries);
+        }else if(CurrQuestion==questionList.get(1)){
+            ArrayList<String> allPopulationFalse = new ArrayList<>();
+            c.moveToFirst();
+            String entry = new String();
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=3;colnb<4;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_INTEGER:
+                            entry+=c.getInt(colnb);
+                            break;
+                    }
+                }
+                allPopulationFalse.add(entry);
+                c.moveToNext();
+            }
+
+            String allEntries = new String();
+            for (String line: allPopulationFalse)
+                allEntries+=line;
+
+            // TRUE FOR BUTTON
+            int val = 1+alea.nextInt(4);
+            if (val==1){
+                button1.setText(allEntries);
+            }else if(val==2){
+                button2.setText(allEntries);
+            }else
+                button3.setText(allEntries);
+        }else{
+            ArrayList<String> allCurrencyFalse = new ArrayList<>();
+            c.moveToFirst();
+            String entry = new String();
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=4;colnb<5;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_STRING:
+                            entry+=c.getInt(colnb);
+                            break;
+                    }
+                }
+                allCurrencyFalse.add(entry);
+                c.moveToNext();
+            }
+            String allEntries = new String();
+            for (String line: allCurrencyFalse)
+                allEntries+=line;
+
+            // TRUE FOR BUTTON
+            int val = 1+alea.nextInt(4);
+            if (val==1){
+                button1.setText(allEntries);
+            }else if(val==2){
+                button2.setText(allEntries);
+            }else
+                button3.setText(allEntries);
+        }
+
+    }
 
     // QUESTION METHOD RANDOM
     private void processCursorCountry(Cursor c) {
@@ -161,7 +251,6 @@ public class GameActivity extends AppCompatActivity{
             c.moveToNext();
         }
         // RAND QUESTION
-        ArrayList<String> questionList = new ArrayList<>();
         questionList.add("What is the Capitalize in ");
         questionList.add("How many popopulation is in [k]");
         questionList.add("What is the currency in");
@@ -172,9 +261,10 @@ public class GameActivity extends AppCompatActivity{
         for (String line: allCountry)
             allEntries+=line;
         question.setText(questionList.get(val)+ " " +allEntries);
-        CurrQuestion=allEntries;
+        CurrCuntry=allEntries;
+        // QUESTION ----------------------------> VALUE
+        CurrQuestion=questionList.get(val);
     }
-
 
     private void processCursorCountryFalse(Cursor c) {
         ArrayList<String> allCountry = new ArrayList<>();
@@ -188,21 +278,80 @@ public class GameActivity extends AppCompatActivity{
                     case Cursor.FIELD_TYPE_STRING:
                         entry+=c.getString(colnb);
                         break;
-                    case Cursor.FIELD_TYPE_INTEGER:
-                        entry+="\n"+cols[colnb]+": "+c.getInt(colnb);
-                        break;
                 }
             }
             allCountry.add(entry);
             c.moveToNext();
         }
-        ArrayList<String> valueFalse = new ArrayList<String>();
-        valueFalse.add(entry);
 
         //String allEntries = new String();
         //for(String line: allCountry)
           //  allEntries+=line+"\n";
-        programinfotv.setText(valueFalse.get(0)+" - " + valueFalse.get(1));
+        // IF FOR Questions ==== CAPITAL
+        if(CurrQuestion==questionList.get(0)){
+            ArrayList<String> allCapitalizeFalse = new ArrayList<>();
+            c.moveToFirst();
+
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=2;colnb<3;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_STRING:
+                            entry+=c.getString(colnb);
+                            break;
+                    }
+                }
+                allCapitalizeFalse.add(entry);
+                c.moveToNext();
+            }
+
+            button1.setText(allCapitalizeFalse.get(0));
+            button2.setText(allCapitalizeFalse.get(1));
+            button3.setText(allCapitalizeFalse.get(2));
+        }else if(CurrQuestion==questionList.get(1)){
+            ArrayList<String> allPopulationFalse = new ArrayList<>();
+            c.moveToFirst();
+
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=3;colnb<4;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_INTEGER:
+                            entry+=c.getInt(colnb);
+                            break;
+                    }
+                }
+                allPopulationFalse.add(entry);
+                c.moveToNext();
+            }
+
+            button1.setText(allPopulationFalse.get(0));
+            button2.setText(allPopulationFalse.get(1));
+            button3.setText(allPopulationFalse.get(2));
+        }else{
+            ArrayList<String> allCurrencyFalse = new ArrayList<>();
+            c.moveToFirst();
+
+            while (!c.isAfterLast()){
+                entry="";
+                for(int colnb=4;colnb<5;colnb++){
+                    switch (c.getType(colnb)){
+                        case Cursor.FIELD_TYPE_STRING:
+                            entry+=c.getInt(colnb);
+                            break;
+                    }
+                }
+                allCurrencyFalse.add(entry);
+                c.moveToNext();
+            }
+            button1.setText(allCurrencyFalse.get(0));
+            button2.setText(allCurrencyFalse.get(1));
+            button3.setText(allCurrencyFalse.get(2));
+        }
+
+        FalseQuestion1= allCountry.get(0);
+        FalseQuestion2= allCountry.get(1);
+        FalseQuestion3= allCountry.get(2);
     }
     public void queryDatabase(View view) {
         Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
