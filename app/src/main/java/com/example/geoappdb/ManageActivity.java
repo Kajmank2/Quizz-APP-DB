@@ -80,13 +80,13 @@ public class ManageActivity extends AppCompatActivity {
     public void querySpecial(View v) {
         // all National
         String selection = QuestionDBHELPER.COUNTRY+"=?";
-        String[] selectionArguments = {"asd"};
+        String[] selectionArguments = {"Poland"};
         Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
                 QuestionDBHELPER.columns,
                 selection,
                 selectionArguments,
                 null,
-                null,null);
+                null,null,null);
         processCursor(entries);
     }
 
@@ -120,9 +120,6 @@ public class ManageActivity extends AppCompatActivity {
         //display layout
         //NEW ACTIVITY
     }
-
-
-
 
 
     private void processCursor(Cursor c) {
