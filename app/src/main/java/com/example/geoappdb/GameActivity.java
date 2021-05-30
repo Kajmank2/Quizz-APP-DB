@@ -3,6 +3,7 @@ package com.example.geoappdb;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +21,11 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity{
     QuestionDBHELPER questionDBHELPER;
     SQLiteDatabase sqldb=null;
-    String CurrQuestion,CurrCuntry,FalseQuestion1,FalseQuestion2,FalseQuestion3;
+    String CurrQuestion,CurrCuntry,FalseQuestion1,FalseQuestion2,FalseQuestion3,trueAnswer;
     Random alea;
-    Button startbtn,randquestionbtn,button1,button2,button3,querybttn;
-    TextView ansText,programinfotv,question;
+    Button startbtn,button1,button2,button3,querybttn;
+    TextView ansText,question;
+    Integer count=0;
     ArrayList<String> questionList = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +41,55 @@ public class GameActivity extends AppCompatActivity{
         Toast.makeText(this,"DB name:" + questionDBHELPER.getDatabaseName(),
                 Toast.LENGTH_LONG).show();
         System.out.println("=========== \n"+questionDBHELPER.getDatabaseName());
-        programinfotv.setText("EXTRA EXTRA DATABASE WORK");
         enableButtons(true);
         question.setText("Nice ! click no RandButton in aim to give a question");
         startbtn.setEnabled(false);
+        enableButton(false);
+    }
+    public void Validate1(View v){
+    querybttn.setEnabled(true);
+    enableButton(false);
+    colorButtons();
+    if (button1.getText().toString()==trueAnswer){
+        button1.setBackgroundColor(Color.GREEN);
+        count++;
+        ansText.setText(
+                "COUNT ===>  " + count.toString());
+    }
+    button2.setBackgroundColor(Color.RED);
+    button3.setBackgroundColor(Color.RED);
+    }
+    public void Validate2(View v){
+        querybttn.setEnabled(true);
+        enableButton(false);
+        colorButtons();
+        if (button2.getText().toString()==trueAnswer) {
+            button2.setBackgroundColor(Color.GREEN);
+            count++;
+            ansText.setText(
+                    "COUNT ===>  " + count.toString() );
+        }
+        button1.setBackgroundColor(Color.RED);
+        button3.setBackgroundColor(Color.RED);
+    }
+    public void Validate3(View v){
+        querybttn.setEnabled(true);
+        enableButton(false);
+        colorButtons();
+        if (button3.getText().toString()==trueAnswer) {
+            button3.setBackgroundColor(Color.GREEN);
+            count++;
+            ansText.setText(
+                    "COUNT ===>  " + count.toString());
+        }
+        button1.setBackgroundColor(Color.RED);
+        button2.setBackgroundColor(Color.RED);
     }
 
-
-    public void randQuestion(View v){
-        ArrayList<String> questionList = new ArrayList<>();
-        questionList.add("What is the Capitalize in ");
-        questionList.add("How many popopulation is in [k]");
-        questionList.add("What is the currency in");
-        int val = 0+alea.nextInt(3);
-        question.setText(questionList.get(val));
-    }
     public void queryDatabaseBUTTNOS(View view) {
-        // COUNTRY
+        querybttn.setEnabled(false);
+        enableButton(true);
+        colorButtons();
         Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
                 QuestionDBHELPER.columns,
                 null,
@@ -100,47 +134,10 @@ public class GameActivity extends AppCompatActivity{
     }
 
     private void processCursorCapital(Cursor c) {
-/*
-        ArrayList<String> allRecords = new ArrayList<>();
-        String entry = new String();
-        c.moveToFirst();
-        String cols[] = c.getColumnNames();
-        while (!c.isAfterLast()){
-            entry="";
-            for(int colnb=2;colnb<3;colnb++){
-                switch (c.getType(colnb)){
-                    case Cursor.FIELD_TYPE_STRING:
-                        entry+=c.getString(colnb);
-                        break;
-                    case Cursor.FIELD_TYPE_INTEGER:
-                        entry+="\n"+cols[colnb]+": "+c.getInt(colnb);
-                        break;
-                }
-            }
-            allRecords.add(entry);
-            c.moveToNext();
-        }
-        String allEntries = new String();
-        for (String line: allRecords)
-            allEntries+=line;
-
-        // TRUE FOR BUTTON
-        int val = 1+alea.nextInt(4);
-        if (val==1){
-            button1.setText(allEntries);
-        }else if(val==2){
-            button2.setText(allEntries);
-        }else
-            button3.setText(allEntries);
-
- */
-
-        //==========================================
         if(CurrQuestion==questionList.get(0)){
              ArrayList<String> allRecords = new ArrayList<>();
             String entry = new String();
             c.moveToFirst();
-            String cols[] = c.getColumnNames();
             while (!c.isAfterLast()){
                 entry="";
                 for(int colnb=2;colnb<3;colnb++){
@@ -168,6 +165,7 @@ public class GameActivity extends AppCompatActivity{
                 button2.setText(allEntries);
             }else
                 button3.setText(allEntries);
+            trueAnswer=allEntries;
         }else if(CurrQuestion==questionList.get(1)){
             ArrayList<String> allPopulationFalse = new ArrayList<>();
             c.moveToFirst();
@@ -197,6 +195,7 @@ public class GameActivity extends AppCompatActivity{
                 button2.setText(allEntries);
             }else
                 button3.setText(allEntries);
+            trueAnswer=allEntries;
         }else{
             ArrayList<String> allCurrencyFalse = new ArrayList<>();
             c.moveToFirst();
@@ -206,7 +205,7 @@ public class GameActivity extends AppCompatActivity{
                 for(int colnb=4;colnb<5;colnb++){
                     switch (c.getType(colnb)){
                         case Cursor.FIELD_TYPE_STRING:
-                            entry+=c.getInt(colnb);
+                            entry+=c.getString(colnb);
                             break;
                     }
                 }
@@ -225,6 +224,7 @@ public class GameActivity extends AppCompatActivity{
                 button2.setText(allEntries);
             }else
                 button3.setText(allEntries);
+            trueAnswer=allEntries;
         }
 
     }
@@ -265,7 +265,7 @@ public class GameActivity extends AppCompatActivity{
         // QUESTION ----------------------------> VALUE
         CurrQuestion=questionList.get(val);
     }
-
+//NAMES FOR BUTTON METHOD
     private void processCursorCountryFalse(Cursor c) {
         ArrayList<String> allCountry = new ArrayList<>();
         String entry = new String();    //for displaing content intoTV
@@ -328,7 +328,7 @@ public class GameActivity extends AppCompatActivity{
             button1.setText(allPopulationFalse.get(0));
             button2.setText(allPopulationFalse.get(1));
             button3.setText(allPopulationFalse.get(2));
-        }else{
+        }else if(CurrQuestion==questionList.get(2)){
             ArrayList<String> allCurrencyFalse = new ArrayList<>();
             c.moveToFirst();
 
@@ -337,7 +337,7 @@ public class GameActivity extends AppCompatActivity{
                 for(int colnb=4;colnb<5;colnb++){
                     switch (c.getType(colnb)){
                         case Cursor.FIELD_TYPE_STRING:
-                            entry+=c.getInt(colnb);
+                            entry+=c.getString(colnb);
                             break;
                     }
                 }
@@ -353,38 +353,33 @@ public class GameActivity extends AppCompatActivity{
         FalseQuestion2= allCountry.get(1);
         FalseQuestion3= allCountry.get(2);
     }
-    public void queryDatabase(View view) {
-        Cursor entries = sqldb.query(QuestionDBHELPER.TABLE_NAME,
-                QuestionDBHELPER.columns,
-                null,
-                null,
-                null,
-                null, "RANDOM()","1"
-        );
-        processCursorCountry(entries);
-    }
-    //////////////////////////
-    public void submit(View v){
-    }
+
     private void  getViewsReferences(){
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         startbtn=findViewById(R.id.startbtn);
         querybttn=findViewById(R.id.querybttn);
-        randquestionbtn=findViewById(R.id.randquestionbtn);
+
 
         // TEXT
-        programinfotv=findViewById(R.id.programinfotv);
         ansText=findViewById(R.id.ansText);
         question=findViewById(R.id.question);
-        randquestionbtn=findViewById(R.id.randquestionbtn);
     }
     private void enableButtons(boolean enable) {
     button1.setEnabled(enable);
+    button2.setEnabled(enable);
+    button3.setEnabled(enable);
+    querybttn.setEnabled(enable);
+    }
+    private void colorButtons() {
+        button1.setBackgroundColor(Color.GRAY);
+        button2.setBackgroundColor(Color.GRAY);
+        button3.setBackgroundColor(Color.GRAY);
+    }
+    private void enableButton(boolean enable) {
+        button1.setEnabled(enable);
         button2.setEnabled(enable);
         button3.setEnabled(enable);
-        querybttn.setEnabled(enable);
-        randquestionbtn.setEnabled(enable);
     }
 }

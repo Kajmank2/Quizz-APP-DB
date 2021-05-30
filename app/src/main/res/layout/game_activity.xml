@@ -8,12 +8,12 @@
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello Welcome in QUIZZ press Start to Play the game"
+        android:text="Hello Welcome in QUIZZ , Press NEXT Question to Start The game"
         android:textSize="25dp"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-        <Button android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ITALY" android:onClick="Validate"/>
-        <Button android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ROME" android:onClick="Validate"/>
-        <Button android:id="@+id/button3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Warsaw" android:onClick="Validate"/>
+        <Button android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ITALY" android:onClick="Validate1"/>
+        <Button android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ROME" android:onClick="Validate2"/>
+        <Button android:id="@+id/button3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Warsaw" android:onClick="Validate3"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
@@ -21,13 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:text="start"
         android:onClick="start"/>
-        <Button android:id="@+id/randquestionbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="Rand"
-            android:onClick="querySpecial"/>
         <Button android:id="@+id/querybttn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="queryDatabaseBUTTNOS"
+            android:layout_height="wrap_content" android:text="Next Question"
             android:onClick="queryDatabaseBUTTNOS"/>
 
     </LinearLayout>
@@ -37,15 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@color/cardview_shadow_end_color"
-        android:text="===Correct YES/NO ==="
+        android:text="COUNT ===> 0 "
         android:textSize="30dp" />
-    <TextView
-        android:id="@+id/programinfotv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/cardview_shadow_end_color"
-        android:text="ProgramInfo"
-        android:textSize="30dp" />
+
 
 </LinearLayout>

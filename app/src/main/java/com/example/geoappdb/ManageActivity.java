@@ -124,7 +124,7 @@ public class ManageActivity extends AppCompatActivity {
 
     private void processCursor(Cursor c) {
         ArrayList<String> allRecords = new ArrayList<>();
-        String entry = new String();    //for displaing content intoTV
+        String entry = new String();
         c.moveToFirst();
         String cols[] = c.getColumnNames();
         while (!c.isAfterLast()){
@@ -169,7 +169,6 @@ public class ManageActivity extends AppCompatActivity {
         entrybtn.setEnabled(enable);
         querybtn.setEnabled(enable);
         coutnbtn.setEnabled(enable);
-        initbtn.setEnabled(enable);
     }
     private void getViewsReferences() {
         tvdbinfo = findViewById(R.id.tvdbinfo);

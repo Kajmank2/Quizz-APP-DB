@@ -19,6 +19,12 @@
             android:text="Create"
             android:onClick="creation"/>
         <Button
+            android:id="@+id/initbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Init"
+            android:onClick="Initialize"/>
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
@@ -57,21 +63,8 @@
             android:layout_height="wrap_content"
             android:text="Query"
             android:onClick="querySpecial"/>
-        <Button
-            android:id="@+id/initbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Init"
-            android:onClick="Initialize"/>
 
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FF99FF"
-        android:text="BACK TO MENU"
-        android:onClick="back"
-        />
     <TextView
         android:id="@+id/tvdbinfo"
         android:layout_width="wrap_content"
